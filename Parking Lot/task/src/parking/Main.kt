@@ -34,18 +34,41 @@ class ParkingLot(val numOfSpaces: Int) {
         }
     }
 
+    fun status() {
+        if (spaces.all { it.registration == "" }) { println("Parking lot is empty.") }
+        else {
+            for (i in spaces.indices) {
+                if (spaces[i].registration != "") println("${i + 1} ${spaces[i].registration} ${spaces[i].carColor}")
+            }
+        }
+    }
+
 }
 
 fun main() {
-    val parkingLot = ParkingLot(20)
+    var lot:ParkingLot? = null
 
     var input = readln().split(" ")
 
     while (input[0] != "exit") {
-        if (input[0] == "park") {
-            parkingLot.park(input[1], input[2])
+        when (input[0]) {
+            "create" -> {
+                lot = ParkingLot(input[1].toInt())
+                println("Created a parking lot with ${input[1]} spots.")
+            }
+            "park" -> {
+                if (lot == null) println("Sorry, a parking lot has not been created.")
+                else lot.park(input[1], input[2])
+            }
+            "leave" -> {
+                if (lot == null) println("Sorry, a parking lot has not been created.")
+                else lot.leave(input[1].toInt())
+            }
+            "status" -> {
+                if (lot == null) println("Sorry, a parking lot has not been created.")
+                else lot.status()
+            }
         }
-        if (input[0] == "leave") parkingLot.leave(input[1].toInt())
         input = readln().split(" ")
     }
 }
