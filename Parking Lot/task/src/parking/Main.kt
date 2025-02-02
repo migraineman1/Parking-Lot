@@ -8,12 +8,6 @@ class ParkingLot(val numOfSpaces: Int) {
         init = { ParkingSpace() }
     )
 
-    init {
-        spaces[0].registration = "Loyola-1983"
-        spaces[0].carColor = "Blue"
-
-    }
-
     fun findFirstParkingSpace(registration: String): Int {
         for (i in spaces.indices) {
             if (spaces[i].registration == registration) { return i}
@@ -23,7 +17,7 @@ class ParkingLot(val numOfSpaces: Int) {
 
     fun park(registration: String, carColor: String) {
         val openSpace = findFirstParkingSpace("")
-        if (openSpace == -1) println("Lot full.")
+        if (openSpace == -1) println("Sorry, the parking lot is full.")
         else {
             spaces[openSpace].registration = registration
             spaces[openSpace].carColor = carColor
@@ -43,12 +37,15 @@ class ParkingLot(val numOfSpaces: Int) {
 }
 
 fun main() {
-    val parkingLot = ParkingLot(2)
+    val parkingLot = ParkingLot(20)
 
-    val input = readln().split(" ")
+    var input = readln().split(" ")
 
-    if (input[0] == "park") {
-        parkingLot.park(input[1], input[2])
+    while (input[0] != "exit") {
+        if (input[0] == "park") {
+            parkingLot.park(input[1], input[2])
+        }
+        if (input[0] == "leave") parkingLot.leave(input[1].toInt())
+        input = readln().split(" ")
     }
-    if (input[0] == "leave") parkingLot.leave(input[1].toInt())
 }
